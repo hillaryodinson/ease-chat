@@ -8,11 +8,8 @@ RUN apk add --no-cache python3 make g++ netcat-openbsd
 # Copy package files
 COPY package*.json ./
 
-# Clean install dependencies and ensure proper Next.js 15 setup
-RUN npm install \
-    && npm install next@15.0.3 \
-    && npm install @next/swc@15.0.3 \
-    && npm install @next/swc-linux-x64-gnu @next/swc-linux-x64-musl
+# Clean install dependencies
+RUN npm install
 
 # Install Prisma globally
 RUN npm install -g prisma
