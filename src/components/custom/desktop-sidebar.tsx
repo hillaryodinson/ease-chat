@@ -43,10 +43,11 @@ const routes = [
 ];
 const DesktopSidebar = () => {
 	const pathname = usePathname();
+	console.log(pathname);
 	const activeRoute =
-		routes.find(
-			(route) => route.href.length > 0 && pathname.includes(route.href)
-		) || routes[0];
+		routes.find((route) => route.href.length > 0 && pathname === route.href) ||
+		routes[0];
+	console.log("ActiveRoute:", activeRoute.href);
 
 	return (
 		<div className="hidden relative md:block min-w-[280px] max-w-[280px] h-screen overflow-hidden w-full bg-primary/5 text-muted-foreground border-r-2 border-separate">
@@ -54,19 +55,21 @@ const DesktopSidebar = () => {
 				<Logo />
 			</div>
 			<div className="flex flex-col p-2">
-				{routes.map((route) => (
-					<Link
-						href={route.href}
-						key={route.label}
-						className={buttonVariants({
-							variant:
-								activeRoute.href === route.href
-									? "sidebarItemActive"
-									: "sidebarItem",
-						})}>
-						<route.icon size={20} /> {route.label}
-					</Link>
-				))}
+				{routes.map((route) => {
+					return (
+						<Link
+							href={route.href}
+							key={route.label}
+							className={buttonVariants({
+								variant:
+									activeRoute.href === route.href
+										? "sidebarItemActive"
+										: "sidebarItem",
+							})}>
+							<route.icon size={20} /> {route.label}
+						</Link>
+					);
+				})}
 			</div>
 		</div>
 	);
