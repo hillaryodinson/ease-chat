@@ -28,6 +28,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   otp           String?
+  phone         String
   role          ROLE            @default(user)
   // Optional for WebAuthn support
   Authenticator Authenticator[]
