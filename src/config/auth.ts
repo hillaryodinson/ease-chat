@@ -5,7 +5,6 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/config/db";
 import { Adapter } from "next-auth/adapters";
 import { User } from "@prisma/client";
-import { sendMail, template } from "@/lib/mailer";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
 	...AuthConfig,
@@ -31,14 +30,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 					if (!user) {
 						return null;
 					}
-
-					//send notification email to user
-					const subject = "Login Successful";
-					const message = template(
-						subject,
-						`<p>Dear ${user?.name},</p><p>you have successfully logged in. </p>`
-					);
-					await sendMail(user?.email as string, subject, message);
 
 					return user;
 				} catch (error) {
