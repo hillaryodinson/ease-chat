@@ -5,6 +5,7 @@ import {
 	MenuIcon,
 	MessageCircleMore,
 	Power,
+	Users,
 } from "lucide-react";
 import React from "react";
 import Logo from "./logo";
@@ -18,6 +19,11 @@ const routes = [
 		href: "/",
 		label: "Home",
 		icon: HomeIcon,
+	},
+	{
+		href: "/users",
+		label: "Users",
+		icon: Users,
 	},
 	{
 		href: "/chats",
