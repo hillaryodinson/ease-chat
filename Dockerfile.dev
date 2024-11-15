@@ -2,17 +2,32 @@ FROM node:20-alpine
 
 WORKDIR /app
 
+# Install dependencies and development tools
+RUN apk add --no-cache python3 make g++ netcat-openbsd
+
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies
-RUN npm install
+# Clean install dependencies and ensure proper Next.js 15 setup
+RUN npm install \
+    && npm install next@15.0.3 \
+    && npm install @next/swc@15.0.3 \
+    && npm install @next/swc-linux-x64-gnu @next/swc-linux-x64-musl
 
-# Copy the rest of the code
+# Install Prisma globally
+RUN npm install -g prisma
+
+# Copy all files
 COPY . .
 
-# Expose port 3000
+# Generate Prisma client
+RUN npx prisma generate
+
+# Expose port
 EXPOSE 3000
 
-# Start development server
-CMD ["npm", "run", "dev"] 
+# Start script to handle database migrations and development server
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+CMD ["docker-entrypoint.sh"] 
